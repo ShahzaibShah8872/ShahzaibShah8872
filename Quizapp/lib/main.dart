@@ -1,216 +1,303 @@
-import 'package:flutter/material.dart';
-import 'quiz_brain.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
+// ignore_for_file: missing_return
+
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:quizapp/contact-us.dart';
+import 'package:quizapp/mdlresult.dart';
+import 'package:quizapp/result.dart';
+import 'package:quizapp/splash.dart';
+import 'quiz_brain.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
-QuizBrain quizBrain = QuizBrain();
+QuizBrain quizBrain;
+void main() => runApp(MaterialApp(
+      home: Splash(),
+    ));
 
-void main() => runApp(QuizApp());
-
-class QuizApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.grey.shade900,
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: QuizPage(),
-          ),
-        ),
-      ),
-    );
+class QuizApp extends StatefulWidget {
+  //const QuizApp({ Key? key }) : super(key: key);
+  QuizApp() {
+    quizBrain = QuizBrain();
   }
-}
 
-class QuizPage extends StatefulWidget {
   @override
-  _QuizPageState createState() => _QuizPageState();
+  _QuizAppState createState() => _QuizAppState();
 }
 
-class _QuizPageState extends State<QuizPage> {
+class _QuizAppState extends State<QuizApp> {
   List<Icon> scoreKeeper = [];
-
-  // Timer _timer;
-  //int _start = 5;
-
-  int _counter=10;
-  Timer _timer;
-  void timerstart()
-  {
-    _counter=10;
-    _timer=Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if(_counter>0)
-        {
-          _counter--;
-        }
-        //questionBrain
-        else{
-          if(quizBrain.isFinished()==false)
-          {
-            _counter=10;
-            quizBrain.nextQuestion();
-            scoreKeeper.add(
-              Icon(
-                Icons.close,
-                color: Colors.red,
-              ),
-            );
-          }
-
-        }
-      });
+  List<MdlResult> record = [];
+  int attempted = 0;
+  getnextQuestion() {
+    setState(() {
+      if (quizBrain.isFinished()) {
+        time.cancel();
+        sec = 5;
+        _dispDialog();
+        quizBrain.reset();
+        scoreKeeper = [];
+      } else {
+        quizBrain.nextQuestion();
+        setState(() {});
+      }
     });
   }
 
-
-  /*void startTimer() {
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
-      oneSec,
-          (Timer timer) {
-        if (_start == 0) {
-          setState(() {
-            timer.cancel();
-          });
-        } else {
-          setState(() {
-            _start--;
-          });
-        }
-      },
+  _dispDialog() {
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => Result(record, attempted),
+      ),
     );
-  }*/
+  }
 
   void checkAnswer(bool userPickedAnswer) {
     bool correctAnswer = quizBrain.getCorrectAnswer();
+    attempted++;
+
     setState(() {
       if (quizBrain.isFinished() == true) {
-        Alert(
-          context: context,
-          title: 'Finshed',
-          desc: 'You\'ve reached the end of the quiz.',
-        ).show();
+        time.cancel();
+        sec = 5;
+        _dispDialog();
+
         quizBrain.reset();
         scoreKeeper = [];
       } else {
         if (userPickedAnswer == correctAnswer) {
+          sec = 5;
           scoreKeeper.add(Icon(
             Icons.check,
-            color: Colors.green,
+            color: Colors.blue,
           ));
         } else {
-          scoreKeeper.add(Icon(
-            Icons.close,
-            color: Colors.red,
-          ));
+          record.add(
+              MdlResult(quizBrain.question, userPickedAnswer, correctAnswer));
+          sec = 5;
+          scoreKeeper.add(
+            Icon(
+              Icons.close,
+              color: Colors.white,
+            ),
+          );
         }
         quizBrain.nextQuestion();
       }
     });
   }
 
-  @override
-
-  /*void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }*/
-
-  void initState()
-  {
-    super.initState();
-    timerstart();
+  int sec = 5;
+  Timer time;
+  bool first = true;
+  _startTimer() {
+    time = Timer.periodic(
+      Duration(seconds: 1),
+      (Timer t) {
+        setState(() {
+          if (this.sec > 0) {
+            this.sec = this.sec - 1;
+          } else {
+            this.sec = 5;
+            getnextQuestion();
+            setState(() {});
+          }
+        });
+      },
+    );
   }
 
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
+    if (first) {
+      first = false;
+      _startTimer();
+    }
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        drawerEnableOpenDragGesture: true,
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Quiz App"),
+          bottomOpacity: 0,
+          backgroundColor: Colors.blue,
+          toolbarOpacity: 0.9,
+        ),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              UserAccountsDrawerHeader(
+                accountName: Text("Shahzaib Shah"),
+                accountEmail: Text("shahzaibshah8872@gmail.com"),
+                currentAccountPicture: Image(image: AssetImage("images/shah.png")),
+              ),
+              // DrawerHeader(
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       CircleAvatar(
+              //         radius: 40,
+              //         backgroundColor: Colors.amber[400],
+              //       ),
+              //       SizedBox(
+              //         height: 5,
+              //       ),
+              //       Text(
+              //         "Quiz App",
+              //         style: TextStyle(fontSize: 20),
+              //       ),
+              //     ],
+              //   ),
 
+              //   // decoration: BoxDecoration(color: Colors.black54),
+              // ),
 
-        // Center(
-        // child: Text(
-        //   "$_start",style: TextStyle(color: Colors.white),),
-        //),
-
-        Expanded(child: Center(
-          child: Text("$_counter",style: TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),),
-        ),),
-
-
-        Expanded(
-          flex: 6,
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Center(
-              child: Text(
-                quizBrain.getQuestionText(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
+              ListTile(
+                subtitle: Text(
+                  "Total Questions: 10",
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
+              ListTile(
+                subtitle: Text(
+                  "Remaining Questions: ${10 - attempted}",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              ListTile(
+                subtitle: Text(
+                  "Total Correct Answers:${attempted - record.length}",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              ListTile(
+                subtitle: Text(
+                  "Total Wrong Answers: ${record.length}",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Divider(
+                thickness: 3,
+                indent: 40,
+                endIndent: 40,
+                color: Colors.blueGrey.shade600,
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              ListTile(
+                leading: Icon(Icons.contact_mail_sharp),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => Contact(),
+                      ));
+                },
+                title: Text(
+                  "Contact Us",
+                  style: TextStyle(fontSize: 20),
+                ),
+              )
+            ],
+          ),
+        ),
+        backgroundColor: Colors.black,
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(50),
+                  child: CircularPercentIndicator(
+                    animation: true,
+                    radius: 100.0,
+                    lineWidth: 7.0,
+                    percent: (sec / 10) * 2,
+                    linearGradient: LinearGradient(
+                        colors: [Colors.amber, Colors.deepOrange]),
+
+                    center: new Text(
+                      sec.toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    //progressColor: Colors.green,
+                  ),
+                ),
+                Expanded(
+                  flex: 4,
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Center(
+                      child: Text(
+                        quizBrain.getQuestionText(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 25.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    padding: EdgeInsets.all(15.0),
+                    child: FlatButton(
+                      textColor: Colors.white,
+                      color: Colors.blue,
+                      child: Text(
+                        'True',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      onPressed: () {
+                        checkAnswer(true);
+                        //The user picked true.
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: FlatButton(
+                      color: Colors.white,
+                      child: Text(
+                        'False',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                      onPressed: () {
+                        checkAnswer(false);
+                        //The user picked false.
+                      },
+                    ),
+                  ),
+                ),
+                Row(
+                  children: scoreKeeper,
+                ),
+              ],
             ),
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              textColor: Colors.white,
-              color: Colors.green,
-              child: Text(
-                'True',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                ),
-              ),
-              onPressed: () {
-                checkAnswer(true);
-                //The user picked true.
-              },
-            ),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              color: Colors.red,
-              child: Text(
-                'False',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                ),
-              ),
-              onPressed: () {
-                checkAnswer(false);
-                //The user picked false.
-              },
-            ),
-          ),
-        ),
-        Row(
-          children: scoreKeeper,
-        ),
-      ],
+      ),
     );
   }
 }
-
-/*
-question1: 'You can lead a cow down stairs but not up stairs.', false,
-question2: 'Approximately one quarter of human bones are in the feet.', true,
-question3: 'A slug\'s blood is green.', true,
-*/
