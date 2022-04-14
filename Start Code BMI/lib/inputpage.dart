@@ -6,6 +6,7 @@ import 'IconTextFile.dart';
 import 'ContainerFile.dart';
 import 'constantFile.dart';
 import 'resultFile.dart';
+import 'CalculatorFile.dart';
 import 'package:bmi_calculator/constantFile.dart';
 
 enum Gender{
@@ -204,6 +205,7 @@ class _InputPageState extends State<InputPage> {
           ),
           GestureDetector(
             onTap: (){
+
               Navigator.push(context, MaterialPageRoute(builder: (context)=>ResultScreen()));
             },
             child:Container(
