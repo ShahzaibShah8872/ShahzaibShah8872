@@ -6,6 +6,7 @@ import 'IconTextFile.dart';
 import 'ContainerFile.dart';
 import 'constantFile.dart';
 import 'resultFile.dart';
+import 'package:bmi_calculator/constantFile.dart';
 
 enum Gender{
   male,
@@ -207,7 +208,7 @@ class _InputPageState extends State<InputPage> {
             },
             child:Container(
               child: Center(
-                  child: Text('Calculate', style: kLargeButtonstyele,)),
+                  child: Text('Calculate', style: kTitleStyleS2,)),
               color: Colors.deepOrange,
               margin: EdgeInsets.only(top: 10.0),
               width: double.infinity,
