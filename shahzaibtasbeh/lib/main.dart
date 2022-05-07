@@ -81,15 +81,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 ]
             ),
             ),
+            Expanded(child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => countertasbeh()));
+                    },
+                    child: Container(
+                      child: Center(
+                        child: Text(
+                          'View All Tasbeh',
+                        ),
+                      ),
+                    ),
+                  )
+                ]
+            ),
+            ),
 
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
