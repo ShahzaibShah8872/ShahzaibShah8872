@@ -63,7 +63,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 ]
             ),
             ),
-         
+            Expanded(child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => countertasbeh()));
+                    },
+                    child: Container(
+                      child: Center(
+                        child: Text(
+                          'Counter Tasbeeh',
+                        ),
+                      ),
+                    ),
+                  )
+                ]
+            ),
+            ),
+
           ],
         ),
       ),
