@@ -5,7 +5,7 @@ import 'package:shahzaibtasbeh/viewall.dart';
 
 void main() {
   runApp(const MaterialApp(debugShowCheckedModeBanner: false,
-    title: 'Navigation Basics',
+    title: 'Tasbeeh-Prayer Beads',
     home: tasbeeh(),
   ));
 }
@@ -18,9 +18,9 @@ class tasbeeh extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.brown,
           centerTitle: true,
-          title: const Text('TASBEEH APP'),
+          title: const Text('Tasbeeh App'),
         ),
       body: Column(
         children: [
@@ -28,8 +28,8 @@ class tasbeeh extends StatelessWidget {
     children: [
     Expanded(
     child: Card(
-    elevation: 60,
-    shadowColor: Colors.black,
+          elevation: 60,
+    shadowColor: Colors.brown,
     color: Colors.white,
     child: SizedBox(
     width: 300,
@@ -41,11 +41,13 @@ class tasbeeh extends StatelessWidget {
     SizedBox(
     height: 10,
     ),
-      CircleAvatar(
-        backgroundImage: AssetImage('images/tasbeeh.jpg'),
-        backgroundColor: Colors.tealAccent,
-        radius: 80.0,
+      Image.asset(
+        'images/tasbh.jpg',
+        fit: BoxFit.fitHeight,
+        height: 200,
+        width: 300,
       ),
+
       Text(
         ''
       ),
@@ -62,7 +64,7 @@ class tasbeeh extends StatelessWidget {
             );
           },
           style: ElevatedButton.styleFrom(
-              primary: Colors.amber,
+              primary: Colors.brown,
               fixedSize: const Size(100, 50),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50))),
@@ -82,7 +84,7 @@ class tasbeeh extends StatelessWidget {
             );
           },
           style: ElevatedButton.styleFrom(
-              primary: Colors.amber,
+              primary: Colors.brown,
               fixedSize: const Size(100, 50),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50))),
@@ -102,12 +104,13 @@ class tasbeeh extends StatelessWidget {
             );
           },
           style: ElevatedButton.styleFrom(
-              primary: Colors.amber,
+              primary: Colors.brown,
               fixedSize: const Size(100, 50),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50))),
         ),
       ),
+
         ],
       ),
     ),

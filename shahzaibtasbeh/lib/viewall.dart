@@ -8,9 +8,9 @@ class viewall extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.brown,
         centerTitle: true,
-        title: const Text('TASBEEH APP'),
+        title: const Text('View Tasbeeh'),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shahzaibtasbeh/create.dart';
 
 
 class createtasbeeh extends StatelessWidget {
@@ -9,9 +10,9 @@ class createtasbeeh extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
         appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.brown,
         centerTitle: true,
-        title: const Text('TASBEEH APP'),
+        title: const Text('Create Tasbeeh'),
     ),
       body: Column(
         children: [
@@ -54,7 +55,7 @@ class createtasbeeh extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                  primary: Colors.black,
+                  primary: Colors.brown,
                   fixedSize: const Size(100, 50),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50))),

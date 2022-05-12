@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-class counttasbeeh extends StatelessWidget {
-  const counttasbeeh({Key? key}) : super(key: key);
+class viewall extends StatelessWidget {
+  const viewall({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +10,7 @@ class counttasbeeh extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.brown,
         centerTitle: true,
-        title: const Text('Count Tasbeeh'),
+        title: const Text('Create'),
       ),
     );
   }
