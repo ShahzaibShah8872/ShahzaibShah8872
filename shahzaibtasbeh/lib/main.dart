@@ -62,7 +62,7 @@ class tasbeeh extends StatelessWidget {
             );
           },
           style: ElevatedButton.styleFrom(
-              primary: Colors.black,
+              primary: Colors.amber,
               fixedSize: const Size(100, 50),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50))),
@@ -82,7 +82,7 @@ class tasbeeh extends StatelessWidget {
             );
           },
           style: ElevatedButton.styleFrom(
-              primary: Colors.black,
+              primary: Colors.amber,
               fixedSize: const Size(100, 50),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50))),
@@ -102,7 +102,7 @@ class tasbeeh extends StatelessWidget {
             );
           },
           style: ElevatedButton.styleFrom(
-              primary: Colors.black,
+              primary: Colors.amber,
               fixedSize: const Size(100, 50),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50))),
